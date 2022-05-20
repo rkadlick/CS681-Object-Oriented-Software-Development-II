@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+  To run this build script, type: 
+
+  ant -f hw12.xml
+
+  on a shell. 
+-->
+
+<project name="prime" basedir="."  default="clean">
+    <property environment="env" />
+    <echo message="ANT_HOME: ${env.ANT_HOME}" />
+
+    <property name="src" location="src" />
+    <property name="bin" location="bin" />
+
+    <path id="classpath">
+        <pathelement location="bin" />
+    </path>
+    <echo message="${toString:classpath}" />
+
+    <target name="init">
+        <mkdir dir="${bin}" />
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${bin}" includeAntRuntime="no">
+            <classpath refid="classpath" />
+			<include name="edu/umb/cs681/hw12/Directory.java" />
+            <include name="edu/umb/cs681/hw12/File.java" />
+            <include name="edu/umb/cs681/hw12/FSElement.java" />
+            <include name="edu/umb/cs681/hw12/Main.java" />
+		</javac>
+	</target>
+
+    <target name="run" depends="compile">
+        <java classname="edu.umb.cs681.hw12.Main"
+                classpathref="classpath"
+                fork="true" />
+    </target>
+
+	<target name="clean" depends="run">
+		<delete includeemptydirs="true">
+			<fileset dir="${bin}/edu/umb/cs681/hw12" includes="**/*"/>
+		</delete>
+        <echo message="Class files deleted succesfully." />
+	</target>
+
+</project>
